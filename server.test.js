@@ -1,5 +1,5 @@
 const request = require('supertest');
-const server = require('./index.js');
+const server = require('./server.js');
 // 1.  use `jest` and `supertest` to write the tests.
 // 1.  Your API must be able to **create** and **delete** a _resource_ of your choosing.
 // 1.  Write a minimum of two tests per route handler.
@@ -21,29 +21,29 @@ describe('server.js', () => {
 
   })
 
-  it('must successfully insert a resource', () => {
+  it('must successfully insert a resource', async () => {
 
     const response = await request(server).post('/', someObject);
     expect(response.status).toEqual(200);
   })
 
-  it('should fail if passed the wrong schema on insert', () => {
+  it('should fail if passed the wrong schema on insert', async () => {
 
     const response = await request(server).post('/', someObject);
     expect(response.status).toEqual(400);
 
   })
 
-  it('must delete a resource', () => {
+  it('must delete a resource', async () => {
 
     const response = await request(server).delete('/');
     expect(response.status).toEqual(200);
 
   })
 
-  it('should fail if passed an invalid deletion', () => {
+  it('should fail if passed an invalid deletion', async () => {
 
     const response = await request(server).delete('/');
     expect(response.status).toEqual(400);
   })
-}
+})
