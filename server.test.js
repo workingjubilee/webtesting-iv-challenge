@@ -17,33 +17,36 @@ describe('server.js', () => {
 
     const response = await request(server).get('/');
     expect(response.body.data).toEqual(expect.any(Array));
-    // or .toMatchObject?
 
   })
 
   it('must successfully insert a resource', async () => {
 
-    const response = await request(server).post('/', someObject);
+    const goodObject = {};
+
+    const response = await request(server).post('/', goodObject);
     expect(response.status).toEqual(200);
   })
 
   it('should fail if passed the wrong schema on insert', async () => {
 
-    const response = await request(server).post('/', someObject);
+    const badObject = {}
+
+    const response = await request(server).post('/', badObject);
     expect(response.status).toEqual(400);
 
   })
 
   it('must delete a resource', async () => {
 
-    const response = await request(server).delete('/');
+    const response = await request(server).delete('/1');
     expect(response.status).toEqual(200);
 
   })
 
   it('should fail if passed an invalid deletion', async () => {
 
-    const response = await request(server).delete('/');
-    expect(response.status).toEqual(400);
+    const response = await request(server).delete('/0');
+    expect(response.status).toEqual(500);
   })
 })
