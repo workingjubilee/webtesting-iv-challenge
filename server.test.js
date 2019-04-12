@@ -1,5 +1,8 @@
 const request = require('supertest');
 const server = require('./server.js');
+const environment = 'development';
+const knexConfig = require('./knexfile.js')
+const db = require('knex')(knexConfig[environment]);
 // 1.  use `jest` and `supertest` to write the tests.
 // 1.  Your API must be able to **create** and **delete** a _resource_ of your choosing.
 // 1.  Write a minimum of two tests per route handler.
@@ -7,6 +10,11 @@ const server = require('./server.js');
 // 1.  Write the **tests BEFORE** writing the route handlers.
 
 describe('server.js', () => {
+
+  afterEach(async () => {
+    await db.truncate();
+  });
+
   it('should respond to appropriate requests at the endpoint', async () => {
 
     const response = await request(server).get('/');
@@ -32,7 +40,8 @@ describe('server.js', () => {
 
     const badObject = {}
 
-    const response = await request(server).post('/', badObject);
+    const response = await request(server).post('/', badObject).send('name=john') // x-www-form-urlencoded upload
+      .set('Accept', 'application/json');
     expect(response.status).toEqual(400);
 
   })
