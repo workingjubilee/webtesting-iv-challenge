@@ -16,7 +16,7 @@ describe('server.js', () => {
   it('should get some kind of data, because sheesh', async () => {
 
     const response = await request(server).get('/');
-    expect(response.body).any([]);
+    expect(response.body.data).toEqual(expect.any(Array));
     // or .toMatchObject?
 
   })
