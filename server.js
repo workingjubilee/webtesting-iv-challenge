@@ -1,3 +1,5 @@
+
+
 const environment = 'development';
 const knexConfig = require('./knexfile.js')
 const db = require('knex')(knexConfig[environment]);
